@@ -1,5 +1,11 @@
-define(["jquery", "knockout", "kendo", "app/AboutViewModel", "app/LocationViewModel", "app/SharePointViewModel"], 
-    function ($, ko, kendo, AboutViewModel, LocationViewModel, SharePointViewModel) {
+define(["jquery", 
+        "knockout", 
+        "kendo", 
+        "app/AboutViewModel", 
+        "app/LocationViewModel", 
+        "app/SharePointViewModel", 
+        "app/UnitTestViewModel"], 
+    function ($, ko, kendo, AboutViewModel, LocationViewModel, SharePointViewModel, UnitTestViewModel) {
     var HomeViewModel = function() {
         var self = this;
         
@@ -14,9 +20,17 @@ define(["jquery", "knockout", "kendo", "app/AboutViewModel", "app/LocationViewMo
         self.AboutViewModel = new AboutViewModel();
         self.LocationViewModel = new LocationViewModel();
         self.SharePointViewModel = new SharePointViewModel();
-        
+        self.UnitTestViewModel = new UnitTestViewModel();
+      
         self.init = function (e) {            
-            console.log("AppViewModel init"); 
+            console.log("AppViewModel init");
+            
+            $(document).bind("keypress", function (args) {
+                if (args.keyCode == 96) {
+                    App.navigate("#test");
+                }
+            });
+            
             //child view
             if (self.LocationViewModel["init"])
                 self.LocationViewModel.init(e);

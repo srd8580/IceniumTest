@@ -81,6 +81,7 @@
     <Content Include="scripts\app\AppViewModel.js" />
     <Content Include="scripts\app\LocationViewModel.js" />
     <Content Include="scripts\app\SharePointViewModel.js" />
+    <Content Include="scripts\app\UnitTestViewModel.js" />
     <Content Include="scripts\app\Utility.js" />
     <Content Include="scripts\knockout\partialView.js" />
     <Content Include="scripts\lib\childbrowser.js" />
@@ -110,8 +111,6 @@
       <TargetName>cordova.js</TargetName>
     </Content>
     <Content Include="styles\QUnit.css" />
-    <Content Include="test\unitTests.html" />
-    <Content Include="test\init.test.js" />
     <Content Include="test\resources\simpleUnitTest.js" />
   </ItemGroup>
   <ItemGroup>

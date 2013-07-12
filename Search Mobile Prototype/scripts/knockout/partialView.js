@@ -1,4 +1,4 @@
-﻿///This is a knockout plugin to give key bindings to the view model
+///This is a knockout plugin to give key bindings to the view model
 define(['knockout',
         'jquery'],
     function (ko, $) {
@@ -39,7 +39,7 @@ define(['knockout',
                     });
 
                 } else {
-                    log.Error('Invalid partialView binding format.\nFunction does not exist: ' + name + '\n' + element.outerHTML);
+                    console.log('Invalid partialView binding format.\nFunction does not exist: ' + name + '\n' + element.outerHTML);
                 }
                 return { controlsDescendantBindings: true };
             },

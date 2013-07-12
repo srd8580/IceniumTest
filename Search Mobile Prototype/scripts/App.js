@@ -12,8 +12,7 @@ require.config({
         knockout: 'lib/knockout',
         domReady: 'lib/domReady',
         kendo: 'lib/kendo.mobile.min',
-        partialView: 'knockout/partialView',
-        cordova: '../cordova'
+        partialView: 'knockout/partialView'
     },
     shim: {
         jquery: {
@@ -25,18 +24,16 @@ require.config({
         kendo: {            
             deps: ['jquery'],
             exports: 'kendo'
-        },
-        cordova: {
-            exports: 'cordova'
         }
     }
 });
 
-require(["jquery", "knockout", "domReady", "kendo", "app/Utility", "app/AppViewModel", "partialView", "cordova"],
-    function ($, ko, domReady, kendo, Utility, AppViewModel, partialView, cordova) {
+require(["jquery", "knockout", "domReady", "kendo", "app/Utility", "app/AppViewModel", "partialView"],
+    function ($, ko, domReady, kendo, Utility, AppViewModel, partialView) {
         window.AppViewModel = new AppViewModel();
         ko.applyBindings(window.AppViewModel, document.body);                      
         
+        //set initial: 'test' to show unit tests out of the gate
         window.App = new kendo.mobile.Application(document.body, {
             transition: 'slide',
             layout: 'default'
@@ -47,6 +44,6 @@ require(["jquery", "knockout", "domReady", "kendo", "app/Utility", "app/AppViewM
             
             document.addEventListener("deviceready", function () {
                 console.log("device ready!");
-            }, false);
+            }, false);  
         });
 });

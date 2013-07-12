@@ -4,6 +4,7 @@ define(['require',
         'knockout'
         ],
     function (require, $, ko) {
+        console.log("defining tests");
         QUnit.module("Testing");
 
         //arrange
@@ -11,6 +12,7 @@ define(['require',
         
         //assert
         QUnit.test("test 1", function () {
-           QUnit.equal(6, i); 
+            console.log("in test1");
+            QUnit.equal(6, i);
         });               
     });
