@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles/QUnit.css">
     
     <script src="cordova.js" type="text/javascript"></script>
+    <script src="scripts/lib/childbrowser.js" type="text/javascript"></script>
     <script src="scripts/lib/QUnit.js" type="text/javascript"></script>
     <script charset="utf-8" src="scripts/lib/childbrowser.js"></script>
     <script>
@@ -13,30 +14,31 @@
     </script>
 </head>
 <body>
-        
-    
-    <div id="home" data-role="view" data-layout="default" data-before-show="AppViewModel.beforeShow" data-init="AppViewModel.init" data-show="AppViewModel.show">
-        
-        <div data-bind="partialView: { viewUrl: 'home.html', model: $data, cache: true }"></div>                           
+           
+    <div id="home" data-role="view" data-layout="default"
+         data-before-show="AppViewModel.beforeShow" data-init="AppViewModel.init" data-show="AppViewModel.show">
+        <div data-bind="partialView: { viewUrl: 'home.html', model: $data, cache: true }"></div>  
     </div>
 
     
-    <div id="about" data-role="view" data-layout="default" data-before-show="AppViewModel.AboutViewModel.beforeShow" data-init="AppViewModel.AboutViewModel.init" data-show="AppViewModel.AboutViewModel.show">
+    <div id="about" data-role="view" data-layout="default"
+         data-before-show="AppViewModel.AboutViewModel.beforeShow" data-init="AppViewModel.AboutViewModel.init" data-show="AppViewModel.AboutViewModel.show">
        <div data-bind="partialView: { viewUrl: 'about.html', model: AboutViewModel, cache: true }"></div>
     </div>
     
     
-    <div id="sharepoint" data-role="view" data-layout="default" data-before-show="AppViewModel.SharePointViewModel.beforeShow" data-init="AppViewModel.SharePointViewModel.init" data-show="AppViewModel.SharePointViewModel.show">
+    <div id="sharepoint" data-role="view" data-layout="default"
+         data-before-show="AppViewModel.SharePointViewModel.beforeShow" data-init="AppViewModel.SharePointViewModel.init" data-show="AppViewModel.SharePointViewModel.show">
        <div data-bind="partialView: { viewUrl: 'sharepoint.html', model: SharePointViewModel, cache: true }"></div>
     </div>
-    
-    
+       
     <div id="test" data-role="view" data-layout="default" data-show="AppViewModel.UnitTestViewModel.show">
         <!-- NOTE:  ALWAYS MAKE SURE THESE ARE ON THE PAGE AT LOAD TIME! QUNIT GETS MAD IF THEY'RE NOT -->
         <div id="qunit"></div>
         <div id="qunit-fixture"></div>
     </div>
    
+  
     
     <section data-role="layout" data-id="default">
         <header data-role="header">

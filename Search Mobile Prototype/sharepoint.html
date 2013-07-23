@@ -1,5 +1,21 @@
 <div>
-    asdfsdf
     <div id="placeholder"></div>
-    <div data-bind="text: Message"></div>
+    <div data-bind="html: Message"></div>
+    
+    <form id="sharePointForm">
+        <div>
+            URL:
+            <input type="text" id="siteUrl" data-bind="value: SiteUrl" />
+            <br />
+            UserName:
+            <input type="text" id="userName" data-bind="value: UserName" />
+            <br />
+            Password:
+            <input type="password" id="password" data-bind="value: Password" />
+            <br />
+
+            <input type="button" data-bind="click: submitCredentials" value="Submit" />
+            <input type="button" data-bind="click: testGetSitesJson" value="Get JSON" />
+        </div>
+    </form>
 </div>

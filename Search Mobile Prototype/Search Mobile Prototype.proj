@@ -86,7 +86,12 @@
     <Content Include="scripts\knockout\partialView.js" />
     <Content Include="scripts\lib\childbrowser.js" />
     <Content Include="scripts\lib\domReady.js" />
+    <Content Include="scripts\lib\digest-auth.js" />
+    <Content Include="scripts\lib\jquery.class.js" />
+    <Content Include="scripts\lib\jquery.SPServices.js" />
+    <Content Include="scripts\lib\md5.js" />
     <Content Include="scripts\lib\QUnit.js" />
+    <Content Include="scripts\lib\wl.js" />
     <Content Include="scripts\_references.js" />
     <Content Include="scripts\lib\kendo.mobile.min.js" />
     <Content Include="sharepoint.html" />
