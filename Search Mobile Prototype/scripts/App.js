@@ -36,6 +36,10 @@ require.config({
             exports: 'digestAuth',
             deps: ['jquery', 'md5', 'jqueryClass']
         },
+        SPServices: {
+            exports: 'SPServices',
+            deps: ['jquery']
+        },
         childBrowser: {
             exports: 'childBrowser'  
         },     
@@ -55,8 +59,8 @@ require.config({
     }
 });
 
-require(["jquery", "knockout", "domReady", "kendo", "md5", "jqueryClass", "digestAuth", "app/Utility", "app/AppViewModel", "partialView"],
-    function ($, ko, domReady, kendo, md5, jqueryClass, digestAuth, Utility, AppViewModel, partialView) {
+require(["jquery", "knockout", "domReady", "kendo", "md5", "jqueryClass", "digestAuth", "app/Utility", "app/AppViewModel", "partialView", "SPServices"],
+    function ($, ko, domReady, kendo, md5, jqueryClass, digestAuth, Utility, AppViewModel, partialView, SPServices) {
         window.AppViewModel = new AppViewModel();
         ko.applyBindings(window.AppViewModel, document.body);                      
         

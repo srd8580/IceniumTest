@@ -37,6 +37,7 @@
     <Folder Include="App_Resources\Android\drawable-nodpi">
       <Platform>Android</Platform>
     </Folder>
+    <Folder Include="scripts\SoapTemplates" />
     <Folder Include="test" />
     <Folder Include="scripts\app\Domain" />
     <Folder Include="scripts\lib" />
@@ -92,6 +93,7 @@
     <Content Include="scripts\lib\md5.js" />
     <Content Include="scripts\lib\QUnit.js" />
     <Content Include="scripts\lib\wl.js" />
+    <Content Include="scripts\SoapTemplates\GetListCollection.xml" />
     <Content Include="scripts\_references.js" />
     <Content Include="scripts\lib\kendo.mobile.min.js" />
     <Content Include="sharepoint.html" />

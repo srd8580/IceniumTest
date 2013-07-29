@@ -1,23 +1,34 @@
-define(["jquery", "knockout", "kendo", "md5", "digestAuth"], 
-    function ($, ko, kendo, md5, digestAuth) {
+define(["jquery", "knockout", "kendo", "md5"], 
+    function ($, ko, kendo, md5) {
     
         var SharePointViewModel = function () {
             var self = this;
             
-            self.Team42010 = "http://10.1.1.164/sites/team4";
+            self.AppDirectory = ".searchMobileTest";
+            
+            self.Team42010 = "http://prodsp2010.dev.local/sites/team4";
             self.Team42013 = "http://10.1.1.171/sites/team4";
             self.Office365 = "https://knowledgelake.sharepoint.com";
     
             self.Message = ko.observable("");
-            self.SiteUrl = ko.observable(self.Team42013);
+            self.SiteUrl = ko.observable(self.Team42010);
             self.UserName = ko.observable("steve.danner@dev.local");
-            self.Password = ko.observable(""); 
+            self.Password = ko.observable("password"); 
+            
+            
+            self.LogonToSharePoint = function () {
+                var user = self.UserName().split("@")[0];
+                var domain = self.UserName().split("@")[1];
+                var pwd = self.Password();
+                Ntlm.setCredentials(domain, user, pwd);
+                return Ntlm.authenticate(self.SiteUrl() + "/_vti_bin/lists.asmx");
+            };
             
             self.getBasicCredentialToken = function () {
                 var tok = self.UserName() + ":" + self.Password();  
                 tok = unescape(encodeURIComponent(tok));
                 return window.btoa(tok);
-            };
+            };                       
                     
             self.submitCredentials = function () {
                 //window.plugins.childBrowser.showWebPage(self.SiteUrl());
@@ -35,15 +46,11 @@ define(["jquery", "knockout", "kendo", "md5", "digestAuth"],
             self.testGetSitesJson = function () {
                 self.Message("Loading JSON");
                 
-                var user = self.UserName().split("@")[0];
-                var domain = self.UserName().split("@")[1];
-                var pwd = self.Password();
-                Ntlm.setCredentials(domain, user, pwd);
-                var result = Ntlm.authenticate(self.SiteUrl() + "/_vti_bin/sites.asmx");
+                var result = self.LogonToSharePoint();
                 
                 if (result) {
                     var request = new XMLHttpRequest();
-                    request.open('GET', self.SiteUrl() + "/_vti_bin/sites.asmx", false);
+                    request.open('GET', self.SiteUrl() + "/_vti_bin/lists.asmx", false);
                     request.send(null);
                     
                     console.log("NTLM auth sucess"); 
@@ -52,7 +59,7 @@ define(["jquery", "knockout", "kendo", "md5", "digestAuth"],
                     
                     $.ajax({  
                         //url: self.SiteUrl() + "/_api/site",
-                        url: self.SiteUrl() + "/_vti_bin/sites.asmx",
+                        url: self.SiteUrl() + "/_vti_bin/lists.asmx",
                         async: true,
                         type:'GET', 
                         cache: false,
@@ -83,7 +90,75 @@ define(["jquery", "knockout", "kendo", "md5", "digestAuth"],
                 }
                                
             };
-         
+            
+            self.testFileSystem = function () {
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                function (fileSystem) {
+                    console.log("filesystem got GOT");
+                    fileSystem.root.getDirectory(self.AppDirectory, { create: true, exclusive: false },
+                    function (entry) {
+                        console.log(JSON.stringify(entry));
+                    }, 
+                    function () {
+                        console.log("failed to get directory entry");
+                    });
+                },
+                function() {
+                    console.log("failed to get filesystem");  
+                });
+            };
+            
+            self.testSoapRequest = function () {
+                self.Message("Loading JSON");
+                
+                var result = self.LogonToSharePoint();
+                
+                if (result) {
+                    self.LoadGetListCollectionSoapTemplate()
+                        .done(function (data) {
+                            console.log("loaded soap template, executing SOAP post");
+                            $.ajax({
+                                //url: self.SiteUrl() + "/_api/site",
+                                url: self.SiteUrl() + "/_vti_bin/lists.asmx",
+                                async: true,
+                                type:'POST', 
+                                cache: false,
+                                processData: false,
+                                contentType: "text/xml; charset='utf-8'",
+                                data: data,
+                                dataType: 'xml',
+                                xhrFields: {
+                                    withCredentials: true     
+                                },
+                                success:function(data) {
+                                    console.log(data);
+                                    self.Message("Successfully got Site Collection data, see log");
+                                },  
+                                error:function(XMLHttpRequest,textStatus, errorThrown) {   
+                                    self.Message("FAILED TO GET Site Collection SOAP");
+                                    console.log("Error status :"+textStatus);  
+                                    console.log("Error type :"+errorThrown);  
+                                    console.log("Error message :"+XMLHttpRequest.responseXML); 
+                                    console.log("Error statustext :"+XMLHttpRequest.statusText); 
+                                    console.log("Error request status :"+XMLHttpRequest.status); 
+                               }, 
+                               complete: function(jqXHR, textStatus){
+                                   console.log(textStatus);
+                               }
+                            });
+                        })
+                        .fail(function () {
+                            console.log("failed to get soap template"); 
+                        });
+                }
+            };
+            
+            self.LoadGetListCollectionSoapTemplate = function() {
+                var url = "Scripts/SoapTemplates/GetListCollection.xml";
+                
+                return $.get(url);
+            };
+          
             self.init = function (e) {
                 
             };
@@ -101,6 +176,7 @@ define(["jquery", "knockout", "kendo", "md5", "digestAuth"],
             
             
             // NTLM (ntlm.js) authentication in JavaScript.
+            // https://github.com/erlandranvinge/ntlm.js/blob/master/ntlm.js
             // ------------------------------------------------------------------------
             // The MIT License (MIT). Copyright (c) 2012 Erland Ranvinge.
             // Permission is hereby granted, free of charge, to any person obtaining
